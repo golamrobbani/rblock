@@ -17,8 +17,8 @@ registerBlockType( 'rblock/highlight', {
 	description: __( 'Draw attention and emphasize important narrative.', 'rblock' ),
 	icon: {
         src: 'edit',
-        background: '#cce5ff',
-        foreground: '#004085'
+		background: '#F85C70',
+		foreground: '#fff',
     },
 	category: 'rblock',
 	keywords: [

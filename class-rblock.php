@@ -125,6 +125,7 @@ final class RBlock {
 		require_once RB_INCLUDES . '/class-rblock-font-loader.php';
 		require_once RB_INCLUDES . '/class-rblock-post-meta.php';
         require_once( RB_SRC_BLOCKS . '/alert/index.php' );
+		require_once( RB_SRC_BLOCKS . '/listing-grid/index.php' );
     }
 
     /**
@@ -214,6 +215,11 @@ final class RBlock {
 				'typographyControlsEnabled'   => true,
 			)
 		);
+
+		wp_localize_script( 'rblock-blocks-js', 'rblock_script', array(
+			'ajaxurl'   => admin_url( 'admin-ajax.php' ),
+			'rtcl_nonce' =>  wp_create_nonce( 'rtcl-nonce' ),
+		) );
 
     }
 

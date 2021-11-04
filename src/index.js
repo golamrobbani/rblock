@@ -16,5 +16,6 @@ import './utils/extensions/typography';
 //All block components include
 import './blocks/alert';
 import './blocks/highlight';
+import './blocks/listing-grid';
 
 

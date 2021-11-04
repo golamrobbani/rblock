@@ -33,8 +33,8 @@ registerBlockType ( "rblock/alert-box", {
 		category: 'rblock',
 		icon: {
 			src: 'bell',
-			background: '#cce5ff',
-			foreground: '#004085',
+			background: '#F85C70',
+			foreground: '#fff',
 		},
 		keywords: [
 			__( 'notice', 'rblock' ),
