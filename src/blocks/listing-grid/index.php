@@ -16,7 +16,11 @@ class RTCL_Listing_Grid{
     private function init_hooks() {
         add_action( 'init', array($this,'rblock_register_listing_grid') );
         add_action('wp_ajax_rtcl_categories', array($this,'rtcl_categories')); 
-        add_action('wp_ajax_nopriv_rtcl_categories', array($this,'rtcl_categories')); 
+        add_action('wp_ajax_nopriv_rtcl_categories', array($this,'rtcl_categories'));
+
+        //for classified listing post
+        add_action('wp_ajax_rtcl_listing', array($this,'rtcl_listing')); 
+        add_action('wp_ajax_nopriv_rtcl_listing', array($this,'rtcl_listing'));
     }
 
     private function rtcl_build_query( $data ) {
@@ -177,15 +181,16 @@ class RTCL_Listing_Grid{
         $data=$attributes;
         $data['query'] = $this->rtcl_build_query( $data );
         $query=$data['query'];
-
+        ob_start();
         if ( $query->have_posts() ) :?>
             <?php while ( $query->have_posts() ) : $query->the_post();?>
 
-            <?php get_template_part('',$data); ?>
+            <?php  rblock_get_template('listing-grid');?>
             
             <?php endwhile;?>
         <?php endif;?>
         <?php wp_reset_postdata();
+        return ob_get_clean();
     }
 
     public function rtcl_categories(){
@@ -202,6 +207,30 @@ class RTCL_Listing_Grid{
     
         if(!empty($category_dropdown) ) :
             wp_send_json($category_dropdown);
+        else: ?>
+            <p><div class="ajax-data-notfound"><?php  echo __('Content empty'); ?></div></p>
+        <?php endif;
+    
+        wp_reset_postdata();	 			
+        wp_die(); 
+    }
+
+
+    public function rtcl_listing(){
+        $rtcl_nonce = $_POST['rtcl_nonce'];	       
+        if ( !wp_verify_nonce($rtcl_nonce, 'rtcl-nonce' ) ) {
+            wp_die('nonce not varified'); 	       
+        }
+
+        $args = array(
+            'post_type'      => 'rtcl_listing',
+            'post_status'    => 'publish',
+        );
+
+        $rtcl_posts=get_posts($args);
+
+        if(!empty($rtcl_posts) ) :
+            wp_send_json($rtcl_posts);
         else: ?>
             <p><div class="ajax-data-notfound"><?php  echo __('Content empty'); ?></div></p>
         <?php endif;

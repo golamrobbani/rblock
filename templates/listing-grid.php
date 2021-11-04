@@ -1,3 +1,4 @@
 <div>
-    <h1>Hello templates</h1>
+    <h3><?php the_title(); ?></h3>
+    <?php the_excerpt(); ?>
 </div>
